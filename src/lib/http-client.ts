@@ -19,12 +19,16 @@ export const httpClient = ky.create({
         if (!response.ok) {
           // Handle 401 Unauthorized globally
           if (response.status === 401) {
-            // Clear auth data
-            localStorage.removeItem("auth_token")
-            localStorage.removeItem("username")
+            // Don't redirect if we're already on the login page
+            const isLoginPage = window.location.pathname === "/login"
+            if (!isLoginPage) {
+              // Clear auth data
+              localStorage.removeItem("auth_token")
+              localStorage.removeItem("username")
 
-            // Redirect to login
-            window.location.href = "/login"
+              // Redirect to login
+              window.location.href = "/login"
+            }
           }
 
           throw await APIError.fromResponse(response)

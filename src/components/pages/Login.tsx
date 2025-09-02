@@ -8,6 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form"
 import { toast } from "sonner"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
+import { APIError } from "@/lib/errors"
 
 const loginSchema = z.object({
   username: z.string().min(1).max(100),
@@ -29,8 +30,22 @@ export default function Login() {
     try {
       await login(data.username, data.password)
       void navigate("/")
-    } catch {
-      toast.error("Invalid username or password")
+    } catch (error) {
+      let errorMessage = "An unexpected error occurred"
+
+      if (error instanceof APIError) {
+        if (error.status === 401) {
+          errorMessage = "Invalid username or password"
+        } else {
+          errorMessage = error.message
+        }
+      } else if (error instanceof Error) {
+        errorMessage = error.message
+      } else if (typeof error === "string") {
+        errorMessage = error
+      }
+
+      toast.error(errorMessage)
     }
   }
 
@@ -46,7 +61,12 @@ export default function Login() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form
+              onSubmit={(e) => {
+                void form.handleSubmit(onSubmit)(e)
+              }}
+              className="space-y-4"
+            >
               <FormField
                 control={form.control}
                 name="username"
