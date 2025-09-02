@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "lint": "pnpm run typecheck && eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate:types": "dotenv -- bash -c 'openapi-typescript $SPACENOTE_OPENAPI -o ./src/types/generated.ts'"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
@@ -41,6 +42,7 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
+    "dotenv-cli": "^10.0.0",
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^5.2.0",

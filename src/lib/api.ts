@@ -1,3 +1,4 @@
+import type { LoginRequest, LoginResponse } from "@/types"
 import { httpClient } from "./http-client"
 
 export const api = {

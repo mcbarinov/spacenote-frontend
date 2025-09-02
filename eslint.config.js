@@ -40,6 +40,7 @@ export default tseslint.config([
       "@typescript-eslint/no-unnecessary-condition": "off",
       "@typescript-eslint/no-unnecessary-template-expression": "off",
       "@typescript-eslint/no-unnecessary-type-conversion": "off",
+      "react-refresh/only-export-components": "off",
     },
   },
 ])
